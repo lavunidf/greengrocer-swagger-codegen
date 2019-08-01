@@ -1,0 +1,70 @@
+swagger: "2.0"
+info:
+  description: >-
+    This is a simple example about API Swagger generator. You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).
+  version: 1.0.0
+  title: Sample Yaml schema
+  contact:
+    email: fiorindavide@gmail.com
+host: localhost:8085
+basePath: /
+schemes:
+- http
+paths:
+  '/greengrocer/selling/buyApples':
+    post:
+      tags:
+      - Selling
+      description: give me y dollars, i'll give you x apples
+      operationId: buyApples
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "BuyApplesRequest"
+        description: "BuyApplesRequest"
+        required: true
+        schema:
+          $ref: '#/definitions/BuyApplesRequest'
+      responses:
+        '200':
+          description: "BuyApplesResponse"
+          schema:
+            $ref: '#/definitions/BuyApplesResponse'
+definitions:
+  BuyApplesRequest:
+    type: object
+    required:
+      - numberOfItems
+      - givenDollars
+    properties:
+      numberOfItems:
+        type: integer
+        minimum: 1
+        maximum: 500
+      givenDollars:
+        type: number
+        format: double
+  BuyApplesResponse:
+    allOf: 
+    - $ref: '#/definitions/BaseResponse'
+    - type: object
+      properties:
+        numberOfSoldItems:
+          type: integer
+  BaseResponse:
+    type: object
+    properties:
+       outcome: 
+         $ref: '#/definitions/Outcome'
+  Outcome:
+    type: object
+    properties:
+      outcome:
+        type: boolean
+      code:
+        type: string
+      text:
+        type: string

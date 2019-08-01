@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	 
+	<parent>
+	   <groupId>org.fiorin.sample</groupId>
+		<artifactId>greengrocer-codegen</artifactId>
+		<version>0.0.1</version>
+	</parent>
+	 
+	<artifactId>greengrocer-codegen-boot</artifactId>
+  	<name>Greengrocer codegen boot</name>
+	<packaging>jar</packaging>
+  
+	<dependencies>
+  		<!-- Dependency modules needed -->
+  		<dependency>
+			<groupId>org.fiorin.sample</groupId>
+			<artifactId>greengrocer-codegen-core</artifactId> 
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.fiorin.sample</groupId>
+			<artifactId>greengrocer-codegen-api</artifactId> 
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+		</dependency>
+		<!-- Tests -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	
+</project>
