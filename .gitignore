@@ -1,0 +1,29 @@
+# Eclipse
+/**/.classpath
+/**/.springBeans
+/**/.project
+/**/.settings/
+/**/.metadata/
+/**/.recommenders/
+/**/build/
+/**/bin/
+/**/RemoteSystemsTempFiles/
+
+# Intellij
+.idea/
+/**/*.iml
+/**/*.iws
+ 
+# Mac
+/**/.DS_Store
+ 
+# Maven
+/**/target/
+/**/deploy/
+
+#SVN
+/**/.svn/
+/**/.svn
+
+
+\.vscode/
