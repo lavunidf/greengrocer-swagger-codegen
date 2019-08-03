@@ -1,0 +1,123 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.fiorin.sample</groupId>
+    <artifactId>greengrocer-codegen</artifactId>
+    <version>0.0.1</version>
+  </parent>
+  
+  <name>Greengrocer codegen api</name>
+  <artifactId>greengrocer-codegen-api</artifactId>
+  <packaging>jar</packaging>
+  
+  <dependencies>
+  		<dependency>
+			<groupId>org.fiorin.sample</groupId>
+			<artifactId>greengrocer-codegen-schema</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- Dependencies used to compile generated code with annotations -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+		</dependency>
+  </dependencies>
+  
+  <build>
+		<plugins>
+			<!-- During add-source phase (right after validate phase, the first phase), create useful directories -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>target/generated-sources/swagger/src/main/java</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- During generate-sources phase, extract yaml from -schema module and make it visible to -api module for code generation-->
+			<plugin>
+				<artifactId>maven-remote-resources-plugin</artifactId>
+				<version>1.6.0</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<id>extract-schema</id>
+						<goals>
+							<goal>process</goal>
+						</goals>
+						<configuration>
+							<resourceBundles>
+								<resourceBundle>org.fiorin.sample:greengrocer-codegen-schema:${project.version}</resourceBundle>
+							</resourceBundles>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- During generate-sources phase, generate api classes with swagger codegen plugin -->
+			<!-- https://github.com/swagger-api/swagger-codegen/tree/master/modules/swagger-codegen-maven-plugin -->
+			<plugin>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-codegen-maven-plugin</artifactId>
+				<executions>
+					
+					<execution>
+						<id>generate-sources-server</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<!-- 'spring' used to generate with spring mvc, set 'java' otherwise -->
+							<language>spring</language>
+							<inputSpec>${project.parent.basedir}/greengrocer-codegen-schema/src/main/resources/greengrocer-api-definition.yaml</inputSpec>
+							<apiPackage>${generated.package.api}</apiPackage>
+							<modelPackage>${generated.package.model}</modelPackage>
+							<addCompileSourceRoot>true</addCompileSourceRoot>
+							<generateApiTests>true</generateApiTests>
+							<generateModels>true</generateModels>
+							<generateApis>true</generateApis>
+							<generateModelTests>true</generateModelTests>
+<!-- 							<templateDirectory>${basedir}/src/main/resources/rest-template</templateDirectory>
+ -->						<configOptions>
+								<serializableModel>true</serializableModel>
+								<delegatePattern>true</delegatePattern>
+								<swaggerDocketConfig>true</swaggerDocketConfig>
+								<useBeanValidation>true</useBeanValidation>
+								<dateLibrary>java8</dateLibrary>
+								<java8>true</java8>
+							</configOptions>
+						</configuration>
+					</execution>
+					
+				</executions>
+			</plugin>
+			
+		</plugins>
+	</build>
+</project>
