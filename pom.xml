@@ -6,25 +6,26 @@
 	<groupId>org.fiorin.sample</groupId>
 	<artifactId>greengrocer-codegen</artifactId>
 	<version>0.0.1</version>
-	
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.1.3.RELEASE</version>
-		<relativePath/> 
+		<relativePath />
 	</parent>
-	
+
 	<name>Greengrocer codegen</name>
 	<description>Fiorin archetype standard</description>
 
 	<packaging>pom</packaging>
-	
+
 	<properties>
 		<java.version>8</java.version>
 		<spring.boot.version>2.1.3.RELEASE</spring.boot.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<swagger.codegen.version>2.4.8</swagger.codegen.version>
 		<swagger.version>2.9.2</swagger.version>
 		<validation.version>2.0.1.Final</validation.version>
 		<datatype.jsr310.version>2.8.0</datatype.jsr310.version>
@@ -36,6 +37,12 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-web</artifactId>
 				<version>${spring.boot.version}</version>
+			</dependency>
+			<!-- Swagger codegen magic dependency -->
+			<dependency>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-codegen</artifactId>
+				<version>${swagger.codegen.version}</version>
 			</dependency>
 			<!-- Swagger codegen dependencies -->
 			<dependency>
@@ -65,14 +72,11 @@
 				<version>${spring.boot.version}</version>
 				<scope>test</scope>
 			</dependency>
-			<!-- <dependency>
-				<groupId>com.h2database</groupId>
-				<artifactId>h2</artifactId>
-				<scope>runtime</scope>
-			</dependency> -->
+			<!-- <dependency> <groupId>com.h2database</groupId> <artifactId>h2</artifactId> 
+				<scope>runtime</scope> </dependency> -->
 		</dependencies>
 	</dependencyManagement>
-	
+
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -120,18 +124,19 @@
 									</action>
 								</pluginExecution>
 							</pluginExecutions>
-						</lifecycleMappingMetadata>				
+						</lifecycleMappingMetadata>
 					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
-	
+
 	<modules>
 		<module>greengrocer-codegen-boot</module>
 		<module>greengrocer-codegen-core</module>
 		<module>greengrocer-codegen-schema</module>
 		<module>greengrocer-codegen-api</module>
+		<module>greengrocer-codegen-magic</module>
 	</modules>
 
 </project>

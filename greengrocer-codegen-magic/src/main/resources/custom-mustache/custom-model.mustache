@@ -1,0 +1,22 @@
+package {{modelPackage}};
+
+import java.util.Objects;
+{{#imports}}import {{import}};
+{{/imports}}
+{{#serializableModel}}
+import java.io.Serializable;
+{{/serializableModel}}
+
+{{#internalImports}}import {{internalImport}};
+{{/internalImports}}
+
+{{#models}}
+{{#model}}
+{{#isEnum}}
+{{>enumOuterClass}}
+{{/isEnum}}
+{{^isEnum}}
+{{>pojo}}
+{{/isEnum}}
+{{/model}}
+{{/models}}

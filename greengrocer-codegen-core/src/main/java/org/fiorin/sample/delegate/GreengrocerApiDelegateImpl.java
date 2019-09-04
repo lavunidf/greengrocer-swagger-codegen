@@ -4,19 +4,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import io.swagger.api.GreengrocerApiDelegate;
 import io.swagger.model.BuyApplesRequest;
 import io.swagger.model.BuyApplesResponse;
 import io.swagger.model.Outcome;
 
 @Component
-public class GreengrocerApiDelegateImpl implements GreengrocerApiDelegate {
+//public class GreengrocerApiDelegateImpl implements GreengrocerApiDelegateImpl {
+public class GreengrocerApiDelegateImpl {
 
 	/**
 	 * Simple implementation of an operation
 	 */
-	@Override
-	public ResponseEntity<BuyApplesResponse> buyApples(BuyApplesRequest buyApplesRequest) {
+	public ResponseEntity<BuyApplesResponse> buyApples (BuyApplesRequest buyApplesRequest) {
 
 		// Decoupling between request and Data Transfer Object shoulde be here
 		//

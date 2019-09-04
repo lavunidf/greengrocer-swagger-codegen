@@ -1,17 +1,19 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.fiorin.sample</groupId>
-    <artifactId>greengrocer-codegen</artifactId>
-    <version>0.0.1</version>
-  </parent>
-  
-  <name>Greengrocer codegen api</name>
-  <artifactId>greengrocer-codegen-api</artifactId>
-  <packaging>jar</packaging>
-  
-  <dependencies>
-  		<dependency>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.fiorin.sample</groupId>
+		<artifactId>greengrocer-codegen</artifactId>
+		<version>0.0.1</version>
+	</parent>
+
+	<name>Greengrocer codegen api</name>
+	<artifactId>greengrocer-codegen-api</artifactId>
+	<packaging>jar</packaging>
+
+	<dependencies>
+		<dependency>
 			<groupId>org.fiorin.sample</groupId>
 			<artifactId>greengrocer-codegen-schema</artifactId>
 			<version>${project.version}</version>
@@ -33,30 +35,13 @@
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
 		</dependency>
-  </dependencies>
-  
-  <build>
+	</dependencies>
+
+	<build>
 		<plugins>
-			<!-- During add-source phase (right after validate phase, the first phase), create useful directories -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>add-source</id>
-						<phase>initialize</phase>
-						<goals>
-							<goal>add-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>target/generated-sources/swagger/src/main/java</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- During generate-sources phase, extract yaml from -schema module and make it visible to -api module for code generation-->
+			
+			<!-- During generate-sources phase, extract yaml from -schema module and 
+				make it visible to -api module for code generation -->
 			<plugin>
 				<artifactId>maven-remote-resources-plugin</artifactId>
 				<version>1.6.0</version>
@@ -75,13 +60,21 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- During generate-sources phase, generate api classes with swagger codegen plugin -->
+			<!-- During generate-sources phase, generate api classes with swagger 
+				codegen plugin -->
 			<!-- https://github.com/swagger-api/swagger-codegen/tree/master/modules/swagger-codegen-maven-plugin -->
 			<plugin>
 				<groupId>io.swagger</groupId>
 				<artifactId>swagger-codegen-maven-plugin</artifactId>
+				<dependencies>
+					<dependency>
+						<groupId>org.fiorin.sample</groupId>
+						<artifactId>greengrocer-codegen-magic</artifactId>
+						<version>${project.version}</version>
+					</dependency>
+				</dependencies>
 				<executions>
-					
+
 					<execution>
 						<id>generate-sources-server</id>
 						<phase>generate-sources</phase>
@@ -89,18 +82,20 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<!-- 'spring' used to generate with spring mvc, set 'java' otherwise -->
-							<language>spring</language>
+							<!-- custom-spring-resttemplate is our custom implementation of the codegen, use java or spring otherwise -->
+							<language>custom-spring-resttemplate</language>
 							<inputSpec>${project.parent.basedir}/greengrocer-codegen-schema/src/main/resources/greengrocer-api-definition.yaml</inputSpec>
-							<apiPackage>${generated.package.api}</apiPackage>
-							<modelPackage>${generated.package.model}</modelPackage>
+							<templateDirectory>${project.parent.basedir}/greengrocer-codegen-magic/src/main/resources/custom-mustache</templateDirectory>
+							<output>${project.basedir}/target/swagger-custom-generated</output>
+							<!-- Add the output directory to the project as a source root, so that the generated java types are compiled and included in the project artifact  --> 
 							<addCompileSourceRoot>true</addCompileSourceRoot>
-							<generateApiTests>true</generateApiTests>
 							<generateModels>true</generateModels>
-							<generateApis>true</generateApis>
-							<generateModelTests>true</generateModelTests>
-<!-- 							<templateDirectory>${basedir}/src/main/resources/rest-template</templateDirectory>
- -->						<configOptions>
+							<modelPackage>${generated.package.model}</modelPackage>
+							<generateModelTests>false</generateModelTests>
+							 <generateApiTests>false</generateApiTests>
+							 <generateApis>true</generateApis>
+							 <apiPackage>${generated.package.api}</apiPackage>
+							<configOptions>
 								<serializableModel>true</serializableModel>
 								<delegatePattern>true</delegatePattern>
 								<swaggerDocketConfig>true</swaggerDocketConfig>
@@ -110,10 +105,31 @@
 							</configOptions>
 						</configuration>
 					</execution>
-					
+
 				</executions>
 			</plugin>
 			
+			<!-- During add-source phase (right after validate phase, the first phase), 
+				create useful directories -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>target/generated-sources/swagger/src/main/java</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
 </project>
