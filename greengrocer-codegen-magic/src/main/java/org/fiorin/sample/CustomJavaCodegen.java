@@ -9,7 +9,6 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -1046,6 +1045,9 @@ public class CustomJavaCodegen extends DefaultCodegen implements CodegenConfig {
 		return codegenModel;
 	}
 
+	/**
+	 * This method is used to add imports inside model classes
+	 */
 	@Override
 	public void postProcessModelProperty (CodegenModel model, CodegenProperty property) {
 
@@ -1069,11 +1071,11 @@ public class CustomJavaCodegen extends DefaultCodegen implements CodegenConfig {
 			}
 		}
 
-		if (!BooleanUtils.toBoolean(model.isEnum)) {
-			// needed by all pojos, but not enums
-			model.imports.add("ApiModelProperty");
-			model.imports.add("ApiModel");
-		}
+//		if (!BooleanUtils.toBoolean(model.isEnum)) {
+//			// needed by all pojos, but not enums
+//			model.imports.add("ApiModelProperty");
+//			model.imports.add("ApiModel");
+//		}
 	}
 
 	@Override
