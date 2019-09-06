@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Strings;
 
+import io.swagger.codegen.CliOption;
 import io.swagger.codegen.CodegenConfig;
 import io.swagger.codegen.CodegenConstants;
 import io.swagger.codegen.CodegenModel;
@@ -132,7 +133,6 @@ public class CustomJavaCodegen extends DefaultCodegen implements CodegenConfig {
 
 		supportsInheritance = true;
 
-//		modelTemplateFiles.put("model.mustache", ".java");
 //		apiTemplateFiles.put("api.mustache", ".java");
 //		apiTestTemplateFiles.put("api_test.mustache", ".java");
 //		modelDocTemplateFiles.put("model_doc.mustache", ".md");
@@ -197,29 +197,31 @@ public class CustomJavaCodegen extends DefaultCodegen implements CodegenConfig {
 //        cliOptions.add(new CliOption(CodegenConstants.LICENSE_URL, CodegenConstants.LICENSE_URL_DESC));
 //        cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC));
 //        cliOptions.add(new CliOption(CodegenConstants.LOCAL_VARIABLE_PREFIX, CodegenConstants.LOCAL_VARIABLE_PREFIX_DESC));
-//        cliOptions.add(CliOption.newBoolean(CodegenConstants.SERIALIZABLE_MODEL, CodegenConstants.SERIALIZABLE_MODEL_DESC));
+		cliOptions
+			.add(CliOption.newBoolean(CodegenConstants.SERIALIZABLE_MODEL, CodegenConstants.SERIALIZABLE_MODEL_DESC));
 //        cliOptions.add(CliOption.newBoolean(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING, CodegenConstants
 //                .SERIALIZE_BIG_DECIMAL_AS_STRING_DESC));
 //        cliOptions.add(CliOption.newBoolean(FULL_JAVA_UTIL, "whether to use fully qualified name for classes under java.util. This option only works for Java API client"));
 //        cliOptions.add(new CliOption("hideGenerationTimestamp", "hides the timestamp when files were generated"));
 //        cliOptions.add(CliOption.newBoolean(WITH_XML, "whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)"));
-//
-//        CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use");
-//        Map<String, String> dateOptions = new HashMap<String, String>();
-//        dateOptions.put("java8", "Java 8 native JSR310 (preferred for jdk 1.8+) - note: this also sets \"" + JAVA8_MODE + "\" to true");
-//        dateOptions.put("threetenbp", "Backport of JSR310 (preferred for jdk < 1.8)");
-//        dateOptions.put("java8-localdatetime", "Java 8 using LocalDateTime (for legacy app only)");
-//        dateOptions.put("joda", "Joda (for legacy app only)");
-//        dateOptions.put("legacy", "Legacy java.util.Date (if you really have a good reason not to use threetenbp");
-//        dateLibrary.setEnum(dateOptions);
-//        cliOptions.add(dateLibrary);
-//
-//        CliOption java8Mode = new CliOption(JAVA8_MODE, "Option. Use Java8 classes instead of third party equivalents");
-//        Map<String, String> java8ModeOptions = new HashMap<String, String>();
-//        java8ModeOptions.put("true", "Use Java 8 classes such as Base64");
-//        java8ModeOptions.put("false", "Various third party libraries as needed");
-//        java8Mode.setEnum(java8ModeOptions);
-//        cliOptions.add(java8Mode);
+
+		CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use");
+		Map<String, String> dateOptions = new HashMap<String, String>();
+		dateOptions.put("java8",
+			"Java 8 native JSR310 (preferred for jdk 1.8+) - note: this also sets \"" + JAVA8_MODE + "\" to true");
+		dateOptions.put("threetenbp", "Backport of JSR310 (preferred for jdk < 1.8)");
+		dateOptions.put("java8-localdatetime", "Java 8 using LocalDateTime (for legacy app only)");
+		dateOptions.put("joda", "Joda (for legacy app only)");
+		dateOptions.put("legacy", "Legacy java.util.Date (if you really have a good reason not to use threetenbp");
+		dateLibrary.setEnum(dateOptions);
+		cliOptions.add(dateLibrary);
+
+		CliOption java8Mode = new CliOption(JAVA8_MODE, "Option. Use Java8 classes instead of third party equivalents");
+		Map<String, String> java8ModeOptions = new HashMap<String, String>();
+		java8ModeOptions.put("true", "Use Java 8 classes such as Base64");
+		java8ModeOptions.put("false", "Various third party libraries as needed");
+		java8Mode.setEnum(java8ModeOptions);
+		cliOptions.add(java8Mode);
 //
 //        cliOptions.add(CliOption.newBoolean(DISABLE_HTML_ESCAPING, "Disable HTML escaping of JSON strings when using gson (needed to avoid problems with byte[] fields)"));
 
