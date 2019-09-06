@@ -27,7 +27,7 @@ public class GreengrocerApiDelegateImpl {
 		Outcome outcome = new Outcome();
 		outcome.setOutcome(Boolean.TRUE);
 
-		response.setOutcome(outcome);
+		response.getBaseResponse().setOutcome(outcome);
 		return new ResponseEntity<BuyApplesResponse>(response, HttpStatus.OK);
 	}
 }

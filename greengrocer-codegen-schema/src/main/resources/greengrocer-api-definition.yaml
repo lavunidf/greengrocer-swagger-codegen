@@ -48,12 +48,12 @@ definitions:
         type: number
         format: double
   BuyApplesResponse:
-    allOf: 
-    - $ref: '#/definitions/BaseResponse'
-    - type: object
-      properties:
-        numberOfSoldItems:
-          type: integer
+    type: object
+    properties:
+      baseResponse:
+        $ref: '#/definitions/BaseResponse'
+      numberOfSoldItems:
+        type: integer
   BaseResponse:
     type: object
     properties:
